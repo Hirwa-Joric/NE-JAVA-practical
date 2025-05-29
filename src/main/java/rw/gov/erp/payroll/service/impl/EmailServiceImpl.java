@@ -67,10 +67,8 @@ public class EmailServiceImpl implements EmailService {
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
             
             helper.setFrom(fromEmail);
-            // Send to the actual employee
+            // Send to the actual employee only
             helper.setTo(employee.getEmail());
-            // BCC the admin for monitoring purposes
-            helper.setBcc("hirwajoric@gmail.com");
             helper.setSubject(subject);
             helper.setText(message, true); // true = isHtml
             
