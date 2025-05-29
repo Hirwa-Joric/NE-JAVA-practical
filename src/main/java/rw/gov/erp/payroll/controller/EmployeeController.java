@@ -22,19 +22,19 @@ public class EmployeeController {
     private final EmployeeService employeeService;
     
     @PostMapping
-    @PreAuthorize("hasRole('ROLE_MANAGER')")
+    @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')")
     public ResponseEntity<EmployeeResponseDTO> createEmployee(@Valid @RequestBody EmployeeRequestDTO requestDTO) {
         return new ResponseEntity<>(employeeService.createEmployee(requestDTO), HttpStatus.CREATED);
     }
     
     @GetMapping
-    @PreAuthorize("hasRole('ROLE_MANAGER')")
+    @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')")
     public ResponseEntity<List<EmployeeResponseDTO>> getAllEmployees() {
         return ResponseEntity.ok(employeeService.getAllEmployees());
     }
     
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_MANAGER')")
+    @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')")
     public ResponseEntity<EmployeeResponseDTO> getEmployeeById(@PathVariable Long id) {
         return ResponseEntity.ok(employeeService.getEmployeeById(id));
     }
@@ -47,7 +47,7 @@ public class EmployeeController {
     }
     
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_MANAGER')")
+    @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')")
     public ResponseEntity<EmployeeResponseDTO> updateEmployee(
             @PathVariable Long id, 
             @Valid @RequestBody EmployeeUpdateDTO updateDTO) {
@@ -63,7 +63,7 @@ public class EmployeeController {
     }
     
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_MANAGER')")
+    @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')")
     public ResponseEntity<Void> deleteEmployee(@PathVariable Long id) {
         employeeService.deleteEmployee(id);
         return ResponseEntity.noContent().build();

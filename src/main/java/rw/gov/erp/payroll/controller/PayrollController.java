@@ -19,7 +19,7 @@ public class PayrollController {
     private final PayrollService payrollService;
     
     @PostMapping("/generate")
-    @PreAuthorize("hasRole('ROLE_MANAGER')")
+    @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')")
     public ResponseEntity<List<PayslipResponseDTO>> generatePayroll(@Valid @RequestBody PayrollRequestDTO requestDTO) {
         List<PayslipResponseDTO> payslips = payrollService.generatePayrollForMonth(requestDTO.getMonth(), requestDTO.getYear());
         return ResponseEntity.ok(payslips);
