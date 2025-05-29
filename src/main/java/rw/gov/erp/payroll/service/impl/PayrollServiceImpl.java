@@ -2,9 +2,11 @@ package rw.gov.erp.payroll.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import rw.gov.erp.payroll.dto.payslip.PayslipResponseDTO;
+import rw.gov.erp.payroll.event.PayrollApprovedEvent;
 import rw.gov.erp.payroll.exception.ResourceNotFoundException;
 import rw.gov.erp.payroll.model.Deduction;
 import rw.gov.erp.payroll.model.Employee;
@@ -36,6 +38,7 @@ public class PayrollServiceImpl implements PayrollService {
     private final EmployeeRepository employeeRepository;
     private final DeductionRepository deductionRepository;
     private final PayslipRepository payslipRepository;
+    private final ApplicationEventPublisher eventPublisher;
     
     @Override
     @Transactional
@@ -117,6 +120,9 @@ public class PayrollServiceImpl implements PayrollService {
                 .collect(Collectors.toList());
         
         log.info("Approved {} payslips for month: {}, year: {}", approvedPayslips.size(), month, year);
+        
+        // Publish event for email notifications
+        eventPublisher.publishEvent(new PayrollApprovedEvent(this, approvedPayslips));
         
         // Map to DTOs and return
         return approvedPayslips.stream()
