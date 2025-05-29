@@ -57,6 +57,7 @@ public class Employee {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
+    @Builder.Default
     private EmployeeStatus status = EmployeeStatus.ACTIVE;
 
     @CreationTimestamp

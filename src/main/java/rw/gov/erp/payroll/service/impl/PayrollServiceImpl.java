@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import rw.gov.erp.payroll.dto.payslip.PayslipResponseDTO;
 import rw.gov.erp.payroll.event.PayrollApprovedEvent;
-import rw.gov.erp.payroll.exception.ResourceNotFoundException;
 import rw.gov.erp.payroll.model.Deduction;
 import rw.gov.erp.payroll.model.Employee;
 import rw.gov.erp.payroll.model.Employment;
@@ -15,7 +14,6 @@ import rw.gov.erp.payroll.model.Payslip;
 import rw.gov.erp.payroll.model.enums.EmploymentStatus;
 import rw.gov.erp.payroll.model.enums.PayslipStatus;
 import rw.gov.erp.payroll.repository.DeductionRepository;
-import rw.gov.erp.payroll.repository.EmployeeRepository;
 import rw.gov.erp.payroll.repository.EmploymentRepository;
 import rw.gov.erp.payroll.repository.PayslipRepository;
 import rw.gov.erp.payroll.service.PayrollService;
@@ -35,7 +33,6 @@ import java.util.stream.Collectors;
 public class PayrollServiceImpl implements PayrollService {
     
     private final EmploymentRepository employmentRepository;
-    private final EmployeeRepository employeeRepository;
     private final DeductionRepository deductionRepository;
     private final PayslipRepository payslipRepository;
     private final ApplicationEventPublisher eventPublisher;
