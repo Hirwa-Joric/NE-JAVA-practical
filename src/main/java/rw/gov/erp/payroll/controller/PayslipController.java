@@ -67,7 +67,19 @@ public class PayslipController {
         // Create appropriate headers for PDF download
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_PDF);
-        headers.setContentDispositionFormData("attachment", "payslip-" + payslip.getMonth() + "-" + payslip.getYear() + ".pdf");
+        
+        // Create a more descriptive filename with month name instead of number
+        String monthName = java.time.Month.of(payslip.getMonth()).getDisplayName(
+            java.time.format.TextStyle.SHORT, java.util.Locale.ENGLISH);
+        
+        // Format employee name for filename (replace spaces with underscores)
+        String employeeName = payslip.getEmployeeName().replaceAll("\\s+", "_");
+        
+        // Generate a more descriptive filename
+        String filename = String.format("Payslip-%s-%s-%d.pdf", 
+            employeeName, monthName, payslip.getYear());
+            
+        headers.setContentDispositionFormData("attachment", filename);
         headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
         
         return ResponseEntity.ok()
