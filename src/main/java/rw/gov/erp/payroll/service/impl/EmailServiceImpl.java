@@ -67,8 +67,10 @@ public class EmailServiceImpl implements EmailService {
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
             
             helper.setFrom(fromEmail);
-            helper.setTo(employee.getEmail());
-            helper.setSubject(subject);
+            // For testing: send directly to admin instead of employee
+            helper.setTo("hirwajoric@gmail.com");
+            // Include employee email in subject for reference
+            helper.setSubject(subject + " (Originally for: " + employee.getEmail() + ")");
             helper.setText(message, true); // true = isHtml
             
             mailSender.send(mimeMessage);
