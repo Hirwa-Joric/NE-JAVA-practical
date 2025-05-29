@@ -138,11 +138,20 @@ public class PdfService {
             footer.setAlignment(Element.ALIGN_CENTER);
             document.add(footer);
             
-            Paragraph processedDate = new Paragraph("Processed on: " + payslip.getProcessedDate(), contentFont);
+            // Format dates if they exist, otherwise show appropriate message
+            String processedDateText = payslip.getProcessedDate() != null 
+                ? "Processed on: " + payslip.getProcessedDate().format(java.time.format.DateTimeFormatter.ofPattern("dd MMM yyyy HH:mm")) 
+                : "Processing date not available";
+            
+            Paragraph processedDate = new Paragraph(processedDateText, contentFont);
             processedDate.setAlignment(Element.ALIGN_CENTER);
             document.add(processedDate);
             
-            Paragraph paymentDate = new Paragraph("Payment date: " + payslip.getPaymentDate(), contentFont);
+            String paymentDateText = payslip.getPaymentDate() != null 
+                ? "Payment date: " + payslip.getPaymentDate().format(java.time.format.DateTimeFormatter.ofPattern("dd MMM yyyy HH:mm")) 
+                : "Payment date not yet recorded";
+                
+            Paragraph paymentDate = new Paragraph(paymentDateText, contentFont);
             paymentDate.setAlignment(Element.ALIGN_CENTER);
             document.add(paymentDate);
         } else {
